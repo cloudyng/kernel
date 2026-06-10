@@ -4,370 +4,306 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>kernel stuff</title>
-    <!-- Google Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- Marked.js để xử lý Markdown cho Changelogs -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
     <style>
-        /* --- Material Design 2 Color Palette & Reset --- */
+        /* --- M3 Color Tokens (Mặc định Light Mode) --- */
         :root {
-            --md-primary: #6200EE;
-            --md-primary-variant: #3700B3;
-            --md-secondary: #03DAC6;
-            --md-background: #F5F5F5;
-            --md-surface: #FFFFFF;
-            --md-error: #B00020;
+            --md-primary: #0A58CA;
             --md-on-primary: #FFFFFF;
-            --md-on-surface: #000000;
-            --md-on-surface-medium: rgba(0, 0, 0, 0.6);
-            --md-elevation-2: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
-            --md-elevation-4: 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12), 0px 2px 4px -1px rgba(0,0,0,0.2);
+            --md-primary-container: #D7E2FF;
+            --md-on-primary-container: #001B44;
+            --md-surface: #F8F9FA;
+            --md-surface-variant: #E1E2EC;
+            --md-on-surface: #1A1C1E;
+            --md-on-surface-variant: #43474E;
+            --md-background: #FFFFFF;
+            --md-outline: #73777F;
+            --md-corner-card: 12px;
+            --md-corner-btn: 100px; /* Pill shape đặc trưng M3 */
+        }
+
+        /* --- M3 Color Tokens (Dark Mode) --- */
+        [data-theme="dark"] {
+            --md-primary: #AAC7FF;
+            --md-on-primary: #002E6A;
+            --md-primary-container: #004397;
+            --md-on-primary-container: #D7E2FF;
+            --md-surface: #202529;
+            --md-surface-variant: #43474E;
+            --md-on-surface: #E2E2E6;
+            --md-on-surface-variant: #C3C6CF;
+            --md-background: #111418;
+            --md-outline: #8D9199;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            transition: background-color 0.2s ease, color 0.2s ease;
         }
 
         body {
             font-family: 'Roboto', sans-serif;
             background-color: var(--md-background);
             color: var(--md-on-surface);
-            line-height: 1.5;
+            padding-bottom: 40px;
         }
 
-        /* --- Top App Bar --- */
-        .app-bar {
-            background-color: var(--md-primary);
-            color: var(--md-on-primary);
-            height: 64px;
+        /* --- Navbar / Header --- */
+        .navbar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 16px;
-            box-shadow: var(--md-elevation-4);
+            padding: 16px 24px;
+            background-color: var(--md-background);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 10;
         }
 
-        .app-bar-left {
+        .navbar-brand {
             display: flex;
             align-items: center;
-        }
-
-        .app-bar .menu-icon {
-            margin-right: 16px;
-        }
-
-        .app-bar h1 {
-            font-size: 20px;
-            font-weight: 500;
-            letter-spacing: 0.25px;
-        }
-
-        .app-bar-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .github-link {
-            color: var(--md-on-primary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            opacity: 0.9;
-            transition: opacity 0.2s;
-        }
-        .github-link:hover { opacity: 1; }
-
-        /* --- Language Selector --- */
-        .lang-selector-wrapper {
-            position: relative;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 4px;
-            padding: 4px 8px;
-            display: flex;
-            align-items: center;
-        }
-
-        .lang-selector-wrapper .material-icons {
-            font-size: 18px;
-            margin-right: 4px;
-            color: var(--md-on-primary);
-        }
-
-        .lang-select {
-            background: transparent;
-            border: none;
-            color: var(--md-on-primary);
-            font-family: 'Roboto', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            outline: none;
-        }
-
-        .lang-select option {
-            background-color: var(--md-surface);
-            color: var(--md-on-surface);
-        }
-
-        /* --- Main Layout --- */
-        .container {
-            max-width: 960px;
-            margin: 24px auto;
-            padding: 0 16px;
-        }
-
-        /* --- Hero / Banner Section --- */
-        .hero-card {
-            background-color: var(--md-surface);
-            border-radius: 4px;
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: var(--md-elevation-2);
-        }
-
-        .hero-card h2 {
-            font-size: 24px;
+            gap: 12px;
+            font-size: 22px;
             font-weight: 400;
-            margin-bottom: 8px;
         }
 
-        .hero-card p {
-            color: var(--md-on-surface-medium);
-            font-size: 14px;
-        }
-
-        /* --- Status States --- */
-        .status-message {
-            text-align: center;
-            padding: 48px;
-            color: var(--md-on-surface-medium);
-            font-size: 16px;
+        .navbar-actions {
             display: flex;
-            flex-direction: column;
             align-items: center;
             gap: 12px;
         }
-        .spinner {
-            border: 4px solid rgba(0,0,0,0.1);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border-left-color: var(--md-primary);
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- Grid & Cards --- */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
-            gap: 16px;
+        /* --- Các nút chức năng tròn nhỏ --- */
+        .icon-btn {
+            background: transparent;
+            border: none;
+            color: var(--md-on-surface-variant);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        @media(min-width: 768px) {
-            .grid { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); }
+        .icon-btn:hover {
+            background-color: var(--md-surface-variant);
+        }
+
+        /* --- Bộ chọn ngôn ngữ ẩn gọn gàng --- */
+        .lang-wrapper {
+            display: flex;
+            align-items: center;
+            background-color: var(--md-surface);
+            padding: 4px 12px;
+            border-radius: var(--md-corner-btn);
+            border: 1px solid var(--md-outline);
+        }
+        .lang-wrapper select {
+            background: transparent;
+            border: none;
+            color: var(--md-on-surface);
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+            padding-left: 4px;
+        }
+
+        /* --- Layout chính --- */
+        .container {
+            max-width: 800px;
+            margin: 16px auto;
+            padding: 0 16px;
+        }
+
+        /* --- Tiêu đề trang đơn giản --- */
+        .hero {
+            margin-bottom: 24px;
+            padding: 12px 4px;
+        }
+        .hero h2 {
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 8px;
+            color: var(--md-on-surface);
+        }
+        .hero p {
+            color: var(--md-on-surface-variant);
+            font-size: 14px;
+        }
+
+        /* --- Thẻ Card kiểu M3 --- */
+        .card-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
         .card {
             background-color: var(--md-surface);
-            border-radius: 4px;
-            box-shadow: var(--md-elevation-2);
+            border-radius: var(--md-corner-card);
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
-            transition: box-shadow 0.2s ease;
-        }
-
-        .card:hover {
-            box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12);
+            gap: 16px;
         }
 
         .card-header {
-            padding: 16px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
         }
-
-        .badge {
-            background-color: var(--md-secondary);
-            color: #000;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 8px;
-            border-radius: 12px;
-            float: right;
-            text-transform: uppercase;
-        }
-        .badge.pre { background-color: #FFE082; }
 
         .card-title {
             font-size: 20px;
             font-weight: 500;
-            margin-bottom: 4px;
         }
 
         .card-subtitle {
-            font-size: 14px;
-            color: var(--md-on-surface-medium);
-        }
-
-        /* --- Changelog Markdown Container --- */
-        .card-body {
-            padding: 16px;
-            flex-grow: 1;
-            font-size: 14px;
-            color: rgba(0,0,0,0.87);
-            background-color: #FAFAFA;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        /* Style các thành phần Markdown bên trong Changelog */
-        .changelog-content h1, .changelog-content h2, .changelog-content h3 {
-            font-size: 16px;
-            font-weight: 500;
-            margin: 12px 0 6px 0;
-            color: var(--md-primary);
-        }
-        .changelog-content p {
-            margin-bottom: 8px;
-        }
-        .changelog-content ul, .changelog-content ol {
-            padding-left: 20px;
-            margin-bottom: 12px;
-        }
-        .changelog-content li {
-            margin-bottom: 4px;
-        }
-        .changelog-content code {
-            font-family: monospace;
-            background-color: rgba(0,0,0,0.06);
-            padding: 2px 4px;
-            border-radius: 4px;
             font-size: 13px;
-        }
-        .changelog-content pre {
-            background-color: rgba(0,0,0,0.06);
-            padding: 8px;
-            border-radius: 4px;
-            overflow-x: auto;
-            margin-bottom: 12px;
+            color: var(--md-on-surface-variant);
+            margin-top: 2px;
         }
 
+        /* Badge trạng thái thu gọn */
+        .badge {
+            font-size: 11px;
+            font-weight: 700;
+            background-color: var(--md-primary-container);
+            color: var(--md-on-primary-container);
+            padding: 4px 10px;
+            border-radius: var(--md-corner-btn);
+            text-transform: uppercase;
+        }
+
+        /* --- Khung Changelog (Markdown) --- */
+        .changelog-box {
+            font-size: 14px;
+            color: var(--md-on-surface);
+            line-height: 1.6;
+        }
+        .changelog-box p { margin-bottom: 6px; }
+        .changelog-box ul { padding-left: 20px; margin-bottom: 8px; }
+        .changelog-box li { margin-bottom: 2px; }
+        .changelog-box strong { color: var(--md-primary); }
+        .changelog-box a { color: var(--md-primary); text-decoration: none; font-weight: 500; }
+        .changelog-box a:hover { text-decoration: underline; }
+
+        /* --- Khu vực các nút bấm --- */
         .card-actions {
-            padding: 12px 16px;
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
             justify-content: flex-end;
-            background-color: var(--md-surface);
+            margin-top: 8px;
         }
 
-        /* --- Material Buttons --- */
+        /* Nút M3 Pill-Shape */
         .btn {
+            font-family: 'Roboto', sans-serif;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            font-family: 'Roboto', sans-serif;
-            font-size: 13px;
+            gap: 8px;
+            font-size: 14px;
             font-weight: 500;
-            letter-spacing: 0.75px;
-            text-transform: uppercase;
-            padding: 0 16px;
-            height: 36px;
-            border: none;
-            border-radius: 4px;
+            padding: 0 20px;
+            height: 40px;
+            border-radius: var(--md-corner-btn);
             cursor: pointer;
             text-decoration: none;
-            transition: background-color 0.2s, box-shadow 0.2s;
+            border: none;
         }
 
-        .btn-contained {
+        /* Nút Tải về chính */
+        .btn-filled {
             background-color: var(--md-primary);
             color: var(--md-on-primary);
-            box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
         }
-        .btn-contained:hover { background-color: var(--md-primary-variant); }
+        .btn-filled:hover {
+            opacity: 0.9;
+        }
 
+        /* Nút Xem mã nguồn phụ */
         .btn-outlined {
             background-color: transparent;
             color: var(--md-primary);
-            border: 1px solid rgba(98, 0, 238, 0.5);
+            border: 1px solid var(--md-outline);
         }
-        .btn-outlined:hover { background-color: rgba(98, 0, 238, 0.04); }
+        .btn-outlined:hover {
+            background-color: var(--md-surface-variant);
+        }
 
-        .btn .material-icons {
-            margin-right: 6px;
-            font-size: 18px;
+        /* --- Trạng thái loading --- */
+        .loading-state {
+            text-align: center;
+            padding: 40px;
+            color: var(--md-on-surface-variant);
         }
 
         footer {
             text-align: center;
-            padding: 32px 16px;
-            color: var(--md-on-surface-medium);
+            margin-top: 48px;
             font-size: 12px;
+            color: var(--md-on-surface-variant);
         }
     </style>
 </head>
 <body>
 
-    <!-- Top App Bar -->
-    <header class="app-bar">
-        <div class="app-bar-left">
-            <span class="material-icons menu-icon">developer_mode</span>
-            <h1 id="txt-app-title">kernel stuff</h1>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span class="material-icons-round">developer_mode</span>
+            <span id="txt-app-title">kernel stuff</span>
         </div>
-        <div class="app-bar-right">
-            <a href="https://github.com/ncatg/kernel" target="_blank" class="github-link" title="GitHub Repository">
-                <span class="material-icons">code</span>
+        <div class="navbar-actions">
+            <button class="icon-btn" id="theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+                <span class="material-icons-round" id="theme-icon">dark_mode</span>
+            </button>
+            <a href="https://github.com/ncatg/kernel" target="_blank" class="icon-btn" title="GitHub">
+                <span class="material-icons-round">code</span>
             </a>
-            <div class="lang-selector-wrapper">
-                <span class="material-icons">translate</span>
-                <select id="lang-select" class="lang-select" onchange="changeLanguage(this.value)">
+            <div class="lang-wrapper">
+                <span class="material-icons-round" style="font-size: 16px;">translate</span>
+                <select id="lang-select" onchange="changeLanguage(this.value)">
                     <option value="en">English</option>
                     <option value="vi">Tiếng Việt</option>
                 </select>
             </div>
         </div>
-    </header>
+    </nav>
 
     <div class="container">
-        <!-- Hero Section -->
-        <section class="hero-card">
-            <h2 id="txt-hero-title">Kernel Download Center for Galaxy A32</h2>
+        <section class="hero">
+            <h2 id="txt-hero-title">Kernel Download Center</h2>
             <p id="txt-hero-desc">Select and download custom kernels for Samsung Galaxy A32 (a32). Flash via TWRP/OrangeFox at your own risk.</p>
         </section>
 
-        <!-- Dynamic Content Area -->
         <main id="main-content">
-            <div class="status-message" id="status-area">
-                <div class="spinner"></div>
-                <span id="txt-loading">Loading releases from GitHub...</span>
+            <div class="loading-state" id="status-area">
+                <p id="txt-loading">Loading releases from GitHub...</p>
             </div>
-            <div class="grid" id="kernel-grid" style="display: none;"></div>
+            <div class="card-list" id="kernel-list" style="display: none;"></div>
         </main>
+
+        <footer>
+            <p>&copy; 2026 A32 Modding Community • Material 3 Expressive Style</p>
+        </footer>
     </div>
 
-    <footer>
-        <p>&copy; 2026 A32 Modding Community. Powered by GitHub API.</p>
-    </footer>
-
     <script>
-        // Từ điển đa ngôn ngữ (Mặc định: Tiếng Anh 'en')
         const i18n = {
             en: {
                 appTitle: "kernel stuff",
-                heroTitle: "Kernel Download Center for Galaxy A32",
+                heroTitle: "Kernel Center for A32",
                 heroDesc: "Select and download custom kernels for Samsung Galaxy A32 (a32). Flash via TWRP/OrangeFox at your own risk.",
                 loading: "Loading releases from GitHub...",
-                error: "Failed to load releases. Please check the repository directly.",
+                error: "Failed to load releases. Please check GitHub repository directly.",
                 stable: "Stable",
                 preRelease: "Pre-release",
                 published: "Published",
@@ -375,7 +311,7 @@
             },
             vi: {
                 appTitle: "kernel stuff",
-                heroTitle: "Trung tâm tải Kernel cho Galaxy A32",
+                heroTitle: "Trung tâm Kernel A32",
                 heroDesc: "Chọn và tải về bản custom kernel phù hợp cho Samsung Galaxy A32 (a32). Cài đặt qua TWRP/OrangeFox và tự chịu mọi rủi ro.",
                 loading: "Đang tải các phiên bản từ GitHub...",
                 error: "Không thể tải danh sách phiên bản. Vui lòng kiểm tra trực tiếp trên GitHub.",
@@ -389,7 +325,22 @@
         let currentLang = 'en';
         let fetchedReleases = [];
 
-        // Thay đổi ngôn ngữ công cụ
+        // HÀM CHUYỂN ĐỔI GIAO DIỆN SÁNG / TỐI
+        function toggleTheme() {
+            const body = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                icon.innerText = 'dark_mode';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                icon.innerText = 'light_mode';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
         function changeLanguage(lang) {
             currentLang = lang;
             document.documentElement.lang = lang;
@@ -404,58 +355,57 @@
             }
         }
 
-        // Tải dữ liệu từ GitHub Releases API
         async function loadGitHubReleases() {
             const statusArea = document.getElementById('status-area');
-            const gridArea = document.getElementById('kernel-grid');
+            const listArea = document.getElementById('kernel-list');
             
             try {
                 const response = await fetch('https://api.github.com/repos/ncatg/kernel/releases');
-                if (!response.ok) throw new Error('Network response error');
+                if (!response.ok) throw new Error('Error network');
                 
                 fetchedReleases = await response.json();
                 
                 if(fetchedReleases.length === 0) {
-                     statusArea.innerHTML = `<span class="material-icons" style="font-size:48px;">info</span><span>No releases found.</span>`;
+                     statusArea.innerHTML = `<p>No releases found.</p>`;
                      return;
                 }
 
                 statusArea.style.display = 'none';
-                gridArea.style.display = 'grid';
+                listArea.style.display = 'flex';
                 renderReleases(fetchedReleases);
 
             } catch (error) {
                 console.error(error);
-                statusArea.innerHTML = `
-                    <span class="material-icons" style="color:var(--md-error); font-size:48px;">error_outline</span>
-                    <span style="color:var(--md-error);">${i18n[currentLang].error}</span>
-                    <br><br>
-                    <a href="https://github.com/ncatg/kernel/releases" target="_blank" class="btn btn-contained">Go to GitHub</a>
-                `;
+                statusArea.innerHTML = `<p style="color:var(--md-error);">${i18n[currentLang].error}</p>`;
             }
         }
 
-        // Hàm xử lý logic đặt tên nút tải dựa trên tên file (Áp dụng cho cả 2 ngôn ngữ)
+        // HÀM LỌC TÊN FILE THÔNG MINH (ÁP DỤNG ĐỒNG NHẤT CẢ 2 NGÔN NGỮ)
         function getButtonText(fileName) {
-            if (fileName.includes("EXPERIENCE@NONGKI_SUSFS")) {
-                return "SusFS build";
-            }
-            if (fileName.includes("EXPERIENCE@NONGKI.zip")) {
-                return "Non-SusFS build";
-            }
-            if (fileName.includes("enf")) {
-                return "Enforcing build";
-            }
-            if (fileName.includes("per")) {
-                return "Permissive build";
-            }
+            const name = fileName.toLowerCase();
+            
+            let isSusFS = name.includes("susfs");
+            let isNonSusFS = name.includes("experience@nongki.zip") || name.includes("non-susfs") || (name.includes("nongki") && !isSusFS);
+            let isEnforcing = name.includes("enf");
+            let isPermissive = name.includes("per");
+
+            if (isSusFS && isPermissive) return "SusFS Permissive build";
+            if (isSusFS && isEnforcing) return "SusFS Enforcing build";
+            if (isSusFS) return "SusFS build";
+            
+            if (isNonSusFS && isPermissive) return "Non-SusFS Permissive build";
+            if (isNonSusFS && isEnforcing) return "Non-SusFS Enforcing build";
+            if (isNonSusFS) return "Non-SusFS build";
+
+            if (isEnforcing) return "Enforcing build";
+            if (isPermissive) return "Permissive build";
+
             return "DOWNLOAD";
         }
 
-        // Render cấu trúc thẻ Card
         function renderReleases(releases) {
-            const gridArea = document.getElementById('kernel-grid');
-            gridArea.innerHTML = ''; 
+            const listArea = document.getElementById('kernel-list');
+            listArea.innerHTML = ''; 
 
             releases.forEach(release => {
                 const card = document.createElement('article');
@@ -463,60 +413,68 @@
 
                 const isPreRelease = release.prerelease;
                 const badgeText = isPreRelease ? i18n[currentLang].preRelease : i18n[currentLang].stable;
-                const badgeClass = isPreRelease ? 'badge pre' : 'badge';
 
                 const publishDate = new Date(release.published_at).toLocaleDateString(currentLang === 'vi' ? 'vi-VN' : 'en-US', {
                     year: 'numeric', month: 'short', day: 'numeric'
                 });
 
-                // Sử dụng thư viện marked.parse để chuyển đổi văn bản Markdown sang HTML một cách chuẩn chỉnh
-                const rawMarkdown = release.body ? release.body : "*No description provided.*";
+                // Tiền xử lý văn bản thô từ tác giả để chuyển dịch sang định dạng danh sách Markdown chuẩn
+                let rawMarkdown = release.body ? release.body : "*No description provided.*";
+                rawMarkdown = rawMarkdown
+                    .replace(/ # Author:/g, '\n\n**Author:**')
+                    .replace(/ # Features \| Changelogs:/g, '\n\n**Features & Changelogs:**')
+                    .replace(/ # Kernel source:/g, '\n\n**Kernel source:** ')
+                    .replace(/ - /g, '\n* ');
+
                 const parsedChangelog = marked.parse(rawMarkdown);
 
-                // Tạo danh sách nút tải file dựa trên logic lọc tên file đầu vào
                 let assetButtons = '';
                 if(release.assets && release.assets.length > 0) {
                     release.assets.forEach(asset => {
                         const customBtnText = getButtonText(asset.name);
                         assetButtons += `
-                            <a href="${asset.browser_download_url}" class="btn btn-contained" title="${asset.name}">
-                                <span class="material-icons">download</span>${customBtnText}
+                            <a href="${asset.browser_download_url}" class="btn btn-filled">
+                                <span class="material-icons-round" style="font-size:18px;">download</span>${customBtnText}
                             </a>
                         `;
                     });
                 } else {
-                    // Nếu release trống, tạo nút tải source mặc định
                     assetButtons = `
-                        <a href="${release.html_url}" target="_blank" class="btn btn-contained">
-                            <span class="material-icons">launch</span>DOWNLOAD SOURCE
+                        <a href="${release.html_url}" target="_blank" class="btn btn-filled">
+                            <span class="material-icons-round" style="font-size:18px;">launch</span>DOWNLOAD SOURCE
                         </a>
                     `;
                 }
 
                 card.innerHTML = `
                     <div class="card-header">
-                        <span class="${badgeClass}">${badgeText}</span>
-                        <h3 class="card-title">${release.name || release.tag_name}</h3>
-                        <p class="card-subtitle">${i18n[currentLang].published}: ${publishDate}</p>
-                    </div>
-                    <div class="card-body">
-                        <div class="changelog-content">
-                            ${parsedChangelog}
+                        <div>
+                            <h3 class="card-title">${release.name || release.tag_name}</h3>
+                            <p class="card-subtitle">${i18n[currentLang].published}: ${publishDate}</p>
                         </div>
+                        <span class="badge">${badgeText}</span>
+                    </div>
+                    <div class="changelog-box">
+                        ${parsedChangelog}
                     </div>
                     <div class="card-actions">
                         <a href="${release.html_url}" target="_blank" class="btn btn-outlined">
-                            <span class="material-icons">visibility</span>${i18n[currentLang].viewSource}
+                            <span class="material-icons-round" style="font-size:18px;">visibility</span>${i18n[currentLang].viewSource}
                         </a>
                         ${assetButtons}
                     </div>
                 `;
-                gridArea.appendChild(card);
+                listArea.appendChild(card);
             });
         }
 
-        // Khởi chạy hệ thống khi tải xong trang web
+        // Tự động kiểm tra cấu hình theme cũ của thiết bị
         window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.getElementById('theme-icon').innerText = 'light_mode';
+            }
             changeLanguage('en'); 
             loadGitHubReleases(); 
         });
