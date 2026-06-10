@@ -381,28 +381,7 @@
         }
 
         // HÀM LỌC TÊN FILE THÔNG MINH (ÁP DỤNG ĐỒNG NHẤT CẢ 2 NGÔN NGỮ)
-        function getButtonText(fileName) {
-            const name = fileName.toLowerCase();
-            
-            let isSusFS = name.includes("susfs");
-            let isNonSusFS = name.includes("experience@nongki.zip") || name.includes("non-susfs") || (name.includes("nongki") && !isSusFS);
-            let isEnforcing = name.includes("enf");
-            let isPermissive = name.includes("per");
-
-            if (isSusFS && isPermissive) return "SusFS Permissive build";
-            if (isSusFS && isEnforcing) return "SusFS Enforcing build";
-            if (isSusFS) return "SusFS build";
-            
-            if (isNonSusFS && isPermissive) return "Non-SusFS Permissive build";
-            if (isNonSusFS && isEnforcing) return "Non-SusFS Enforcing build";
-            if (isNonSusFS) return "Non-SusFS build";
-
-            if (isEnforcing) return "Enforcing build";
-            if (isPermissive) return "Permissive build";
-
-            return "DOWNLOAD";
-        }
-
+        
         function renderReleases(releases) {
             const listArea = document.getElementById('kernel-list');
             listArea.innerHTML = ''; 
