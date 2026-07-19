@@ -3,36 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ncatg / kernel — Releases</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <title>ker releases</title>
   <style>
-    /* ── Design tokens ──────────────────────────────── */
+    /* ── Design tokens (Dark Mode Concept) ──────────────────────────────── */
     :root {
-      --primary:          #f54e00;
-      --primary-active:   #d04200;
-      --ink:              #26251e;
-      --body:             #5a5852;
-      --muted:            #807d72;
-      --muted-soft:       #a09c92;
-      --hairline:         #e6e5e0;
-      --hairline-soft:    #efeee8;
-      --hairline-strong:  #cfcdc4;
-      --canvas:           #f7f7f4;
-      --canvas-soft:      #fafaf7;
-      --surface-card:     #ffffff;
-      --surface-strong:   #e6e5e0;
-      --on-primary:       #ffffff;
+      --bg-canvas: #0d1117;
+      --bg-default: #161b22;
+      --border-default: #30363d;
+      --border-muted: #21262d;
+      --text-primary: #c9d1d9;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --accent-hover: #3182ce;
+      --success: #238636;
+      --success-hover: #2ea043;
+      --btn-bg: #21262d;
+      --btn-border: #363b42;
+      --btn-hover: #30363d;
 
-      --font:  'Inter', system-ui, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      --mono:  'JetBrains Mono', 'Fira Code', monospace;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
 
-      --r-xs:   4px;
-      --r-sm:   6px;
-      --r-md:   8px;
-      --r-lg:  12px;
-      --r-xl:  16px;
+      --r-xs: 4px;
+      --r-sm: 6px;
+      --r-md: 8px;
+      --r-lg: 12px;
       --r-pill: 9999px;
     }
 
@@ -44,321 +39,263 @@
     /* ── Base ───────────────────────────────────────── */
     html { scroll-behavior: smooth; }
     body {
-      background: var(--canvas);
-      color: var(--ink);
+      background: var(--bg-canvas);
+      color: var(--text-primary);
       font-family: var(--font);
-      font-size: 16px;
+      font-size: 14px;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
     }
 
     /* ── Top nav ────────────────────────────────────── */
     .nav {
       position: sticky; top: 0; z-index: 100;
-      background: var(--canvas);
-      border-bottom: 1px solid var(--hairline);
+      background: var(--bg-canvas);
+      border-bottom: 1px solid var(--border-default);
       height: 64px;
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 40px;
     }
     .nav-brand {
       display: flex; align-items: center; gap: 8px;
-      font-size: 14px; font-weight: 500; color: var(--ink);
+      font-size: 14px; font-weight: 600; color: var(--text-primary);
     }
     .nav-brand-logo {
       width: 24px; height: 24px;
-      background: var(--ink);
+      background: var(--text-primary);
       border-radius: var(--r-xs);
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
-    .nav-brand-logo svg { display: block; }
-    .nav-brand-sep { color: var(--muted-soft); margin: 0 2px; }
-    .nav-brand-repo { color: var(--primary); font-weight: 600; }
+    .nav-brand-logo svg { display: block; fill: var(--bg-canvas); }
+    .nav-brand-sep { color: var(--text-muted); margin: 0 2px; font-weight: 400; }
+    .nav-brand-repo { color: var(--accent); }
     .nav-right { display: flex; align-items: center; gap: 16px; }
     .nav-link {
-      font-size: 14px; font-weight: 500; color: var(--body);
+      font-size: 14px; font-weight: 500; color: var(--text-muted);
       transition: color .15s;
     }
-    .nav-link:hover { color: var(--ink); }
-    .btn-nav-primary {
-      height: 40px;
-      padding: 0 18px;
-      background: var(--primary);
-      color: var(--on-primary);
+    .nav-link:hover { color: var(--text-primary); }
+    
+    .btn-primary {
+      height: 32px;
+      padding: 0 12px;
+      background: var(--success);
+      color: #ffffff;
       font-size: 14px; font-weight: 500;
-      border-radius: var(--r-md);
+      border: 1px solid rgba(240, 246, 252, 0.1);
+      border-radius: var(--r-sm);
       display: inline-flex; align-items: center; gap: 6px;
-      transition: background .15s;
+      transition: .2s;
     }
-    .btn-nav-primary:hover { background: var(--primary-active); }
+    .btn-primary:hover { background: var(--success-hover); }
 
     /* ── Hero ───────────────────────────────────────── */
     .hero {
-      max-width: 1200px; margin: 0 auto;
-      padding: 80px 40px 64px;
-    }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--surface-strong);
-      color: var(--ink);
-      font-size: 11px; font-weight: 600;
-      letter-spacing: .88px; text-transform: uppercase;
-      padding: 4px 10px; border-radius: var(--r-pill);
-      margin-bottom: 24px;
-    }
-    .eyebrow-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--primary);
+      max-width: 1000px; margin: 0 auto;
+      padding: 60px 40px 40px;
+      text-align: center;
     }
     .hero-h1 {
-      font-size: 72px; font-weight: 400;
-      line-height: 1.1; letter-spacing: -2.16px;
-      color: var(--ink); margin-bottom: 20px;
-      max-width: 760px;
+      font-size: 48px; font-weight: 600;
+      line-height: 1.1; letter-spacing: -1px;
+      color: var(--text-primary); margin-bottom: 16px;
     }
-    .hero-h1 em { font-style: normal; color: var(--primary); }
+    .hero-h1 em { font-style: normal; color: var(--accent); }
     .hero-sub {
-      font-size: 16px; color: var(--body); line-height: 1.5;
-      max-width: 520px; margin-bottom: 32px;
+      font-size: 16px; color: var(--text-muted);
+      margin: 0 auto 24px auto; max-width: 600px;
     }
     .hero-code-snip {
       display: inline-flex; align-items: center; gap: 10px;
-      background: var(--surface-card);
-      border: 1px solid var(--hairline);
-      border-radius: var(--r-lg);
-      padding: 10px 16px; margin-bottom: 36px;
-      font-family: var(--mono); font-size: 13px; color: var(--body);
-    }
-    .hero-code-snip .cmt { color: var(--muted-soft); margin-right: 4px; }
-    .hero-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .btn-download {
-      height: 44px; padding: 0 20px;
-      background: var(--ink); color: var(--canvas);
-      font-size: 14px; font-weight: 500;
+      background: var(--bg-default);
+      border: 1px solid var(--border-default);
       border-radius: var(--r-md);
-      display: inline-flex; align-items: center; gap: 8px;
-      transition: background .15s;
+      padding: 8px 16px; margin-bottom: 32px;
+      font-family: var(--mono); font-size: 13px; color: var(--text-primary);
     }
-    .btn-download:hover { background: #3a3932; }
+    .hero-code-snip .cmt { color: var(--text-muted); margin-right: 4px; }
+    .hero-actions { display: flex; align-items: center; justify-content: center; gap: 12px; }
+    
     .btn-ghost {
-      height: 44px; padding: 0 18px;
-      background: var(--surface-card); color: var(--ink);
+      height: 32px; padding: 0 12px;
+      background: var(--btn-bg); color: var(--text-primary);
       font-size: 14px; font-weight: 500;
-      border-radius: var(--r-md);
-      border: 1px solid var(--hairline-strong);
+      border-radius: var(--r-sm);
+      border: 1px solid var(--btn-border);
       display: inline-flex; align-items: center; gap: 6px;
-      transition: border-color .15s;
+      transition: .2s;
     }
-    .btn-ghost:hover { border-color: var(--muted); }
+    .btn-ghost:hover { background: var(--btn-hover); border-color: var(--text-muted); }
 
     /* ── Stats band ─────────────────────────────────── */
     .stats-band {
-      border-top: 1px solid var(--hairline);
-      border-bottom: 1px solid var(--hairline);
+      border-top: 1px solid var(--border-default);
+      border-bottom: 1px solid var(--border-default);
+      background: var(--bg-default);
     }
     .stats-inner {
-      max-width: 1200px; margin: 0 auto;
-      padding: 0 40px;
+      max-width: 1000px; margin: 0 auto;
       display: grid; grid-template-columns: repeat(4, 1fr);
     }
     .stat-item {
-      padding: 20px 0;
-      border-right: 1px solid var(--hairline);
-      padding-right: 24px; padding-left: 0;
+      padding: 20px 40px;
+      border-right: 1px solid var(--border-default);
+      text-align: center;
     }
-    .stat-item:not(:first-child) { padding-left: 24px; }
     .stat-item:last-child { border-right: none; }
     .stat-label {
-      font-size: 11px; font-weight: 600;
-      letter-spacing: .88px; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 4px;
+      font-size: 12px; font-weight: 600;
+      color: var(--text-muted); margin-bottom: 4px;
+      text-transform: uppercase;
     }
     .stat-value {
-      font-size: 22px; font-weight: 400;
-      letter-spacing: -.11px; color: var(--ink);
-      font-family: var(--font);
+      font-size: 20px; font-weight: 600;
+      color: var(--text-primary);
     }
     .stat-value.mono { font-family: var(--mono); font-size: 15px; }
 
     /* ── Releases section ───────────────────────────── */
     .releases {
-      max-width: 1200px; margin: 0 auto;
-      padding: 80px 40px;
+      max-width: 1000px; margin: 0 auto;
+      padding: 60px 40px;
     }
     .releases-head {
-      display: flex; align-items: flex-end; justify-content: space-between;
-      margin-bottom: 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-default);
     }
     .releases-title {
-      font-size: 36px; font-weight: 400;
-      letter-spacing: -.72px; color: var(--ink);
+      font-size: 24px; font-weight: 600;
+      color: var(--text-primary);
     }
-    .releases-count {
-      font-size: 14px; color: var(--muted);
-    }
-    .release-list { display: flex; flex-direction: column; gap: 12px; }
+    .releases-count { font-size: 14px; color: var(--text-muted); }
+    .release-list { display: flex; flex-direction: column; gap: 24px; }
 
     /* ── Release card ───────────────────────────────── */
     .release-card {
-      background: var(--surface-card);
-      border: 1px solid var(--hairline);
-      border-radius: var(--r-lg);
+      background: var(--bg-default);
+      border: 1px solid var(--border-default);
+      border-radius: var(--r-md);
       padding: 24px;
-      display: grid; grid-template-columns: 1fr 280px;
+      display: grid; grid-template-columns: 1fr 300px;
       gap: 32px; align-items: start;
-      transition: border-color .15s;
     }
-    .release-card:hover { border-color: var(--hairline-strong); }
-    .release-card.is-latest { border-color: var(--hairline-strong); }
+    .release-card.is-latest {
+      border-color: var(--text-muted);
+      box-shadow: 0 0 0 1px var(--text-muted);
+    }
 
     /* card left */
     .release-meta {
-      display: flex; align-items: center; gap: 10px;
-      flex-wrap: wrap; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 8px;
     }
     .release-tag {
-      font-family: var(--mono); font-size: 15px; font-weight: 500; color: var(--ink);
+      font-family: var(--mono); font-size: 14px; font-weight: 600; color: var(--text-primary);
     }
     .badge {
-      font-size: 11px; font-weight: 600;
-      letter-spacing: .88px; text-transform: uppercase;
+      font-size: 12px; font-weight: 500;
       padding: 2px 8px; border-radius: var(--r-pill);
+      border: 1px solid transparent;
     }
-    .badge-latest  { background: var(--primary); color: var(--on-primary); }
-    .badge-pre     { background: var(--surface-strong); color: var(--muted); }
+    .badge-latest  { color: #3fb950; border-color: rgba(63, 185, 80, 0.4); }
+    .badge-pre     { color: #d2a8ff; border-color: rgba(210, 168, 255, 0.4); }
+    
     .release-name {
-      font-size: 18px; font-weight: 600; color: var(--ink); margin-bottom: 6px;
+      font-size: 20px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px;
     }
     .release-time {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 13px; color: var(--muted); margin-bottom: 14px;
+      font-size: 13px; color: var(--text-muted); margin-bottom: 16px;
     }
     .release-notes {
-      font-size: 14px; color: var(--body); line-height: 1.6;
+      font-size: 14px; color: var(--text-primary); line-height: 1.5;
       display: -webkit-box; -webkit-line-clamp: 5;
       -webkit-box-orient: vertical; overflow: hidden;
     }
-    .release-notes p + p { margin-top: 6px; }
-    .no-notes { font-size: 14px; color: var(--muted-soft); font-style: italic; }
+    .release-notes p { margin-bottom: 8px; }
+    .no-notes { color: var(--text-muted); font-style: italic; }
     .read-more {
-      display: inline-flex; align-items: center; gap: 4px;
-      font-size: 13px; color: var(--primary); margin-top: 8px;
-      font-weight: 500;
+      display: inline-flex; font-size: 13px; color: var(--accent); 
+      font-weight: 500; margin-top: 8px;
     }
     .read-more:hover { text-decoration: underline; }
 
     /* card right — downloads */
     .downloads-col { display: flex; flex-direction: column; gap: 8px; }
     .downloads-label {
-      font-size: 11px; font-weight: 600;
-      letter-spacing: .88px; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 2px;
+      font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;
     }
     .asset-row {
       display: flex; align-items: center; gap: 8px;
-      padding: 10px 12px;
-      border-radius: var(--r-md);
+      padding: 8px 12px;
+      border-radius: var(--r-sm);
       font-size: 13px; font-weight: 500;
-      transition: background .12s, border-color .12s;
+      text-decoration: none;
       min-width: 0;
     }
     .asset-row.primary-asset {
-      background: var(--ink); color: var(--canvas);
+      background: var(--btn-bg); color: var(--text-primary);
+      border: 1px solid var(--btn-border);
     }
-    .asset-row.primary-asset:hover { background: #3a3932; }
+    .asset-row.primary-asset:hover { background: var(--btn-hover); border-color: var(--text-muted); }
+    
     .asset-row.source-asset {
-      background: var(--surface-card); color: var(--ink);
-      border: 1px solid var(--hairline-strong);
+      background: transparent; color: var(--text-muted);
+      border: 1px solid transparent;
     }
-    .asset-row.source-asset:hover { border-color: var(--muted); }
+    .asset-row.source-asset:hover { color: var(--text-primary); text-decoration: underline; }
+    
     .asset-name {
       flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-      min-width: 0;
     }
     .asset-size {
-      font-family: var(--mono); font-size: 11px;
-      color: var(--muted-soft); flex-shrink: 0;
-    }
-    .asset-row.primary-asset .asset-size { color: rgba(247,247,244,.5); }
-
-    .divider-source {
-      height: 1px; background: var(--hairline); margin: 4px 0;
+      font-family: var(--mono); font-size: 12px;
+      color: var(--text-muted); flex-shrink: 0;
     }
 
-    /* ── Loading / Error / Empty ────────────────────── */
+    .divider-source { height: 1px; background: var(--border-default); margin: 8px 0; }
+
+    /* ── Loading / Error ────────────────────── */
     .state-box {
-      display: flex; flex-direction: column; align-items: center;
-      justify-content: center; padding: 80px 40px; text-align: center; gap: 14px;
+      text-align: center; padding: 60px 20px;
     }
     .spinner {
-      width: 28px; height: 28px;
-      border: 2px solid var(--hairline);
-      border-top-color: var(--ink);
+      width: 24px; height: 24px; margin: 0 auto 16px;
+      border: 2px solid var(--border-default);
+      border-top-color: var(--accent);
       border-radius: 50%;
-      animation: spin .7s linear infinite;
+      animation: spin .8s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .state-title { font-size: 22px; font-weight: 400; letter-spacing: -.11px; }
-    .state-sub   { font-size: 14px; color: var(--muted); }
-    .btn-retry {
-      margin-top: 6px; height: 40px; padding: 0 18px;
-      background: var(--primary); color: var(--on-primary);
-      font-size: 14px; font-weight: 500;
-      border-radius: var(--r-md);
-      display: inline-flex; align-items: center; gap: 6px;
-    }
-
-    /* ── CTA band ───────────────────────────────────── */
-    .cta-band {
-      border-top: 1px solid var(--hairline);
-      padding: 96px 40px;
-      text-align: center;
-    }
-    .cta-title {
-      font-size: 36px; font-weight: 400;
-      letter-spacing: -.72px; color: var(--ink);
-      margin-bottom: 24px;
-    }
+    .state-title { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+    .state-sub { color: var(--text-muted); margin-bottom: 16px; }
 
     /* ── Footer ─────────────────────────────────────── */
     .footer {
-      border-top: 1px solid var(--hairline);
-      padding: 32px 40px;
+      border-top: 1px solid var(--border-default);
+      padding: 40px; text-align: center;
     }
-    .footer-inner {
-      max-width: 1200px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .footer-left { font-size: 13px; color: var(--muted); }
-    .footer-links { display: flex; gap: 24px; }
-    .footer-link { font-size: 13px; color: var(--muted); transition: color .15s; }
-    .footer-link:hover { color: var(--ink); }
+    .footer-left { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; display: block; }
+    .footer-links { display: flex; gap: 24px; justify-content: center; }
+    .footer-link { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+    .footer-link:hover { color: var(--accent); }
 
     /* ── Responsive ─────────────────────────────────── */
-    @media (max-width: 1024px) {
-      .hero-h1 { font-size: 56px; letter-spacing: -1.2px; }
+    @media (max-width: 850px) {
       .stats-inner { grid-template-columns: repeat(2, 1fr); }
-      .stat-item:nth-child(2) { border-right: none; }
+      .stat-item { border-bottom: 1px solid var(--border-default); }
+      .stat-item:nth-child(2), .stat-item:nth-child(4) { border-right: none; }
+      .release-card { grid-template-columns: 1fr; gap: 24px; }
     }
-    @media (max-width: 768px) {
+    @media (max-width: 600px) {
       .nav { padding: 0 20px; }
       .nav-link { display: none; }
-      .hero { padding: 48px 20px 40px; }
-      .hero-h1 { font-size: 36px; letter-spacing: -.72px; }
-      .stats-inner { grid-template-columns: 1fr 1fr; padding: 0 20px; }
-      .releases { padding: 48px 20px; }
-      .release-card { grid-template-columns: 1fr; }
-      .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
-      .footer-links { flex-wrap: wrap; justify-content: center; }
-    }
-    @media (max-width: 480px) {
-      .hero-h1 { font-size: 32px; }
       .stats-inner { grid-template-columns: 1fr; }
-      .stat-item { border-right: none; border-bottom: 1px solid var(--hairline); padding: 16px 0; }
-      .stat-item:last-child { border-bottom: none; }
+      .stat-item { border-right: none; padding: 16px; }
+      .hero-h1 { font-size: 32px; }
+      .hero-actions { flex-direction: column; }
     }
   </style>
 </head>
@@ -366,10 +303,10 @@
 
   <!-- ── Nav ──────────────────────────────────────── -->
   <nav class="nav">
-    <a href="https://github.com/ncatg/kernel" target="_blank" class="nav-brand">
+    <a href="https://github.com/cloudyng/kernel" target="_blank" class="nav-brand">
       <div class="nav-brand-logo">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M7 1C3.686 1 1 3.686 1 7c0 2.653 1.721 4.901 4.107 5.696.3.055.41-.13.41-.29v-1.014C3.857 11.72 3.507 10.5 3.507 10.5c-.274-.697-.67-.882-.67-.882-.547-.374.041-.367.041-.367.605.042.923.621.923.621.537.92 1.41.654 1.754.5.055-.39.21-.655.382-.806-1.337-.152-2.742-.668-2.742-2.975 0-.657.235-1.194.621-1.615-.062-.153-.27-.764.059-1.593 0 0 .507-.162 1.66.618A5.79 5.79 0 017 4.004a5.79 5.79 0 011.509.203c1.152-.78 1.658-.618 1.658-.618.33.83.122 1.44.06 1.593.387.421.62.958.62 1.615 0 2.313-1.407 2.82-2.748 2.97.216.185.408.551.408 1.11v1.646c0 .162.109.348.413.29C11.28 11.9 13 9.652 13 7c0-3.314-2.686-6-6-6z" fill="#f7f7f4"/>
+        <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 1C3.686 1 1 3.686 1 7c0 2.653 1.721 4.901 4.107 5.696.3.055.41-.13.41-.29v-1.014C3.857 11.72 3.507 10.5 3.507 10.5c-.274-.697-.67-.882-.67-.882-.547-.374.041-.367.041-.367.605.042.923.621.923.621.537.92 1.41.654 1.754.5.055-.39.21-.655.382-.806-1.337-.152-2.742-.668-2.742-2.975 0-.657.235-1.194.621-1.615-.062-.153-.27-.764.059-1.593 0 0 .507-.162 1.66.618A5.79 5.79 0 017 4.004a5.79 5.79 0 011.509.203c1.152-.78 1.658-.618 1.658-.618.33.83.122 1.44.06 1.593.387.421.62.958.62 1.615 0 2.313-1.407 2.82-2.748 2.97.216.185.408.551.408 1.11v1.646c0 .162.109.348.413.29C11.28 11.9 13 9.652 13 7c0-3.314-2.686-6-6-6z"/>
         </svg>
       </div>
       <span>ncatg</span>
@@ -377,38 +314,28 @@
       <span class="nav-brand-repo">kernel</span>
     </a>
     <div class="nav-right">
-      <a href="https://github.com/ncatg/kernel/issues" target="_blank" class="nav-link">Issues</a>
-      <a href="https://github.com/ncatg/kernel" target="_blank" class="nav-link">Source</a>
-      <a href="https://github.com/ncatg/kernel/releases" target="_blank" class="btn-nav-primary">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v8M4 6l3 3 3-3M2 12h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        GitHub Releases
-      </a>
+      <a href="https://github.com/cloudyng/kernel/issues" target="_blank" class="nav-link">Issues</a>
+      <a href="https://github.com/cloudyng/kernel" target="_blank" class="nav-link">Source</a>
     </div>
   </nav>
 
   <!-- ── Hero ─────────────────────────────────────── -->
   <section class="hero">
-    <div class="eyebrow">
-      <span class="eyebrow-dot"></span>
-      GitHub Releases
-    </div>
     <h1 class="hero-h1">
-      ncatg/<em>kernel</em><br>releases
+      ncatg/<em>kernel</em>
     </h1>
     <p class="hero-sub">
-      Stable and pre-release builds, source archives, and changelogs — fetched live from the GitHub API.
+      Live release tracker fetched directly from GitHub API. Stable builds, pre-releases, and changelogs in one view.
     </p>
     <div class="hero-code-snip">
-      <span class="cmt">#</span>
-      <span>api.github.com/repos/<strong>ncatg/kernel</strong>/releases</span>
+      <span class="cmt">GET</span>
+      <span>api.github.com/repos/<strong>cloudyng/kernel</strong>/releases</span>
     </div>
     <div class="hero-actions">
-      <a id="hero-download-btn" href="https://github.com/ncatg/kernel/releases/latest" target="_blank" class="btn-download">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v9M5 8l3 3 3-3M2 13h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Download latest
+      <a id="hero-download-btn" href="https://github.com/cloudyng/kernel/releases/latest" target="_blank" class="btn-primary">
+        Download Latest
       </a>
-      <a href="https://github.com/ncatg/kernel" target="_blank" class="btn-ghost">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1C3.686 1 1 3.686 1 7c0 2.653 1.721 4.901 4.107 5.696.3.055.41-.13.41-.29v-1.014C3.857 11.72 3.507 10.5 3.507 10.5c-.274-.697-.67-.882-.67-.882-.547-.374.041-.367.041-.367.605.042.923.621.923.621.537.92 1.41.654 1.754.5.055-.39.21-.655.382-.806-1.337-.152-2.742-.668-2.742-2.975 0-.657.235-1.194.621-1.615-.062-.153-.27-.764.059-1.593 0 0 .507-.162 1.66.618A5.79 5.79 0 017 4.004a5.79 5.79 0 011.509.203c1.152-.78 1.658-.618 1.658-.618.33.83.122 1.44.06 1.593.387.421.62.958.62 1.615 0 2.313-1.407 2.82-2.748 2.97.216.185.408.551.408 1.11v1.646c0 .162.109.348.413.29C11.28 11.9 13 9.652 13 7c0-3.314-2.686-6-6-6z" fill="currentColor"/></svg>
+      <a href="https://github.com/cloudyng/kernel" target="_blank" class="btn-ghost">
         View on GitHub
       </a>
     </div>
@@ -419,7 +346,7 @@
     <div class="stats-inner">
       <div class="stat-item">
         <div class="stat-label">Repository</div>
-        <div class="stat-value mono">ncatg/kernel</div>
+        <div class="stat-value mono">cloudyng/kernel</div>
       </div>
       <div class="stat-item" id="stat-count">
         <div class="stat-label">Total Releases</div>
@@ -439,36 +366,24 @@
   <!-- ── Releases ──────────────────────────────────── -->
   <section class="releases" id="releases">
     <div class="releases-head">
-      <h2 class="releases-title">All releases</h2>
+      <h2 class="releases-title">Releases</h2>
       <span class="releases-count" id="releases-count">Loading…</span>
     </div>
     <div id="releases-list">
       <div class="state-box">
         <div class="spinner"></div>
-        <p class="state-sub">Fetching from GitHub…</p>
+        <p class="state-sub">Fetching from GitHub API...</p>
       </div>
     </div>
   </section>
 
-  <!-- ── CTA band ──────────────────────────────────── -->
-  <section class="cta-band">
-    <h2 class="cta-title">Ready to build?</h2>
-    <a href="https://github.com/ncatg/kernel/releases" target="_blank" class="btn-download" style="display:inline-flex;">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v9M5 8l3 3 3-3M2 13h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      See all releases on GitHub
-    </a>
-  </section>
-
   <!-- ── Footer ────────────────────────────────────── -->
   <footer class="footer">
-    <div class="footer-inner">
-      <span class="footer-left">ncatg/kernel · data via GitHub REST API</span>
-      <div class="footer-links">
-        <a href="https://github.com/ncatg/kernel/issues" target="_blank" class="footer-link">Issues</a>
-        <a href="https://github.com/ncatg/kernel/blob/main/README.md" target="_blank" class="footer-link">Readme</a>
-        <a href="https://github.com/ncatg/kernel/releases.atom" target="_blank" class="footer-link">RSS</a>
-        <a href="https://docs.github.com/en/rest/releases" target="_blank" class="footer-link">API docs</a>
-      </div>
+    <span class="footer-left">ncatg/kernel · Data via GitHub REST API</span>
+    <div class="footer-links">
+      <a href="https://github.com/cloudyng/kernel/issues" target="_blank" class="footer-link">Issues</a>
+      <a href="https://github.com/cloudyng/kernel/blob/main/README.md" target="_blank" class="footer-link">Readme</a>
+      <a href="https://docs.github.com/en/rest/releases" target="_blank" class="footer-link">API Docs</a>
     </div>
   </footer>
 
@@ -499,57 +414,47 @@
     return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
-  // Strip markdown noise for a clean plain-text preview
   function mdPreview(md) {
     if (!md) return '';
     return md
-      .replace(/```[\s\S]*?```/g, '')           // code fences
-      .replace(/`[^`]+`/g, (m) => m.slice(1,-1)) // inline code
-      .replace(/#{1,6}\s/g, '')                  // headings
-      .replace(/\*\*(.+?)\*\*/g, '$1')           // bold
-      .replace(/\*(.+?)\*/g, '$1')               // italic
-      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')   // links
-      .replace(/^[-*+]\s/gm, '')                 // list items
-      .replace(/^\d+\.\s/gm, '')                 // ordered list
+      .replace(/```[\s\S]*?```/g, '')
+      .replace(/`[^`]+`/g, (m) => m.slice(1,-1))
+      .replace(/#{1,6}\s/g, '')
+      .replace(/\*\*(.+?)\*\*/g, '$1')
+      .replace(/\*(.+?)\*/g, '$1')
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+      .replace(/^[-*+]\s/gm, '')
+      .replace(/^\d+\.\s/gm, '')
       .trim();
   }
 
-  function downloadIcon(color) {
-    return `<svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="flex-shrink:0"><path d="M6.5 1.5v7M4 6l2.5 2.5L9 6M2 11h9" stroke="${color}" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  function fileIcon() {
+    return `<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style="flex-shrink:0"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/></svg>`;
   }
 
-  function fileIcon(name, color) {
-    const ext = name.split('.').pop().toLowerCase();
-    const isArc = ['gz','zip','xz','bz2','tar','zst'].includes(ext);
-    if (isArc) return `<svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="flex-shrink:0"><rect x="1.5" y="1" width="10" height="11" rx="2" stroke="${color}" stroke-width="1.2"/><path d="M4.5 1v11M4.5 4h4M4.5 7h4" stroke="${color}" stroke-width="1.2" stroke-linecap="round"/></svg>`;
-    return `<svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="flex-shrink:0"><path d="M2 1.5h6l3 3V12a.5.5 0 01-.5.5h-8A.5.5 0 012 12V1.5z" stroke="${color}" stroke-width="1.2"/><path d="M8 1.5V4.5h3" stroke="${color}" stroke-width="1.2" stroke-linejoin="round"/></svg>`;
-  }
-
-  // ─── Render a single release card ────────────────
+  // ─── Render Card ────────────────
   function renderCard(rel, isLatest) {
     const tag   = esc(rel.tag_name);
     const name  = rel.name && rel.name !== rel.tag_name ? esc(rel.name) : null;
     const pub   = rel.published_at || rel.created_at;
     const assets = rel.assets || [];
 
-    // notes preview (up to 4 non-empty lines)
     const raw   = mdPreview(rel.body || '');
     const lines = raw.split('\n').map(l => l.trim()).filter(Boolean).slice(0, 4);
     const notesHtml = lines.length
       ? lines.map(l => `<p>${esc(l)}</p>`).join('')
-      : `<p class="no-notes">No release notes published.</p>`;
+      : `<p class="no-notes">No release notes provided.</p>`;
 
-    // asset download buttons (only first 4 to keep card clean)
     const assetBtns = assets.slice(0, 4).map(a => `
       <a href="${esc(a.browser_download_url)}" class="asset-row primary-asset" download title="${esc(a.name)}">
-        ${fileIcon(a.name, 'rgba(247,247,244,.7)')}
+        ${fileIcon()}
         <span class="asset-name">${esc(a.name)}</span>
         ${a.size ? `<span class="asset-size">${fmt(a.size)}</span>` : ''}
       </a>`).join('');
 
     const moreAssets = assets.length > 4
       ? `<a href="${esc(rel.html_url)}" target="_blank" class="asset-row source-asset">
-           <span class="asset-name">+${assets.length - 4} more on GitHub</span>
+           <span class="asset-name">+${assets.length - 4} more assets on GitHub</span>
          </a>`
       : '';
 
@@ -565,36 +470,29 @@
     </div>
     ${name ? `<div class="release-name">${name}</div>` : ''}
     <div class="release-time">
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.2"/><path d="M6 3.5v3l1.5 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
       ${fmtDate(pub)} · ${timeAgo(pub)}
     </div>
     <div class="release-notes">${notesHtml}</div>
     <a href="${esc(rel.html_url)}" target="_blank" class="read-more">
-      Full changelog ↗
+      View full changelog →
     </a>
   </div>
   <div class="downloads-col">
-    <div class="downloads-label">
-      ${downloadIcon('currentColor')} &nbsp;Downloads
-    </div>
+    <div class="downloads-label">Assets</div>
     ${assetBtns}
     ${moreAssets}
     ${sourceDivider}
     <a href="${esc(rel.zipball_url)}" class="asset-row source-asset" download>
-      ${fileIcon('source.zip', 'var(--body)')}
       <span class="asset-name">Source code (zip)</span>
-      <span class="asset-size">ZIP</span>
     </a>
     <a href="${esc(rel.tarball_url)}" class="asset-row source-asset" download>
-      ${fileIcon('source.tar.gz', 'var(--body)')}
       <span class="asset-name">Source code (tar.gz)</span>
-      <span class="asset-size">TAR</span>
     </a>
   </div>
 </article>`;
   }
 
-  // ─── Fetch & render ───────────────────────────────
+  // ─── Fetch & Render ───────────────────────────────
   async function load() {
     const listEl  = document.getElementById('releases-list');
     const countEl = document.getElementById('releases-count');
@@ -605,46 +503,31 @@
         { headers: { Accept: 'application/vnd.github.v3+json' } }
       );
 
-      if (res.status === 404) {
-        throw Object.assign(new Error('Repository not found (404).'), { status: 404 });
-      }
-      if (!res.ok) {
-        throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
-      }
+      if (res.status === 404) throw new Error('Repository not found (404).');
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
 
       const releases = await res.json();
 
       if (!releases.length) {
-        listEl.innerHTML = `<div class="state-box">
-          <div class="state-title">No releases yet</div>
-          <p class="state-sub">ncatg/kernel hasn't published any releases.</p>
-          <a href="https://github.com/ncatg/kernel" target="_blank" class="btn-retry">View repository ↗</a>
-        </div>`;
+        listEl.innerHTML = `<div class="state-box"><div class="state-title">No releases yet</div></div>`;
         countEl.textContent = '0 releases';
         return;
       }
 
-      // Stats
       const stable = releases.find(r => !r.prerelease) || releases[0];
-      document.querySelector('#stat-count .stat-value').textContent    = releases.length;
-      document.querySelector('#stat-latest .stat-value').textContent   = stable.tag_name;
-      document.querySelector('#stat-updated .stat-value').textContent  = timeAgo(stable.published_at || stable.created_at);
-      countEl.textContent = `${releases.length} release${releases.length !== 1 ? 's' : ''}`;
+      document.querySelector('#stat-count .stat-value').textContent = releases.length;
+      document.querySelector('#stat-latest .stat-value').textContent = stable.tag_name;
+      document.querySelector('#stat-updated .stat-value').textContent = timeAgo(stable.published_at || stable.created_at);
+      countEl.textContent = `${releases.length} releases`;
 
-      // Hero button
       const heroBtn = document.getElementById('hero-download-btn');
       const lAssets = stable.assets || [];
       if (lAssets.length) {
         heroBtn.href = lAssets[0].browser_download_url;
-        heroBtn.setAttribute('download', '');
-        heroBtn.innerHTML = `${downloadIcon('currentColor')} Download ${stable.tag_name}`;
       } else {
         heroBtn.href = stable.html_url;
-        heroBtn.target = '_blank';
-        heroBtn.innerHTML = `${downloadIcon('currentColor')} Download ${stable.tag_name}`;
       }
 
-      // Cards
       let html = '';
       let latestFound = false;
       releases.forEach(rel => {
@@ -656,9 +539,9 @@
 
     } catch (err) {
       listEl.innerHTML = `<div class="state-box">
-        <div class="state-title">Couldn't load releases</div>
+        <div class="state-title">Error loading releases</div>
         <p class="state-sub">${esc(err.message)}</p>
-        <a href="https://github.com/ncatg/kernel/releases" target="_blank" class="btn-retry">View on GitHub ↗</a>
+        <a href="https://github.com/cloudyng/kernel/releases" target="_blank" class="btn-primary">View on GitHub</a>
       </div>`;
       countEl.textContent = 'Failed to load';
     }
