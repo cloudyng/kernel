@@ -188,23 +188,28 @@
     }
 
     /* card left */
+        /* card left */
     .release-meta {
       display: flex; align-items: center; gap: 8px;
       margin-bottom: 8px;
+      flex-wrap: wrap; /* Ép rớt dòng cho cái badge Latest */
     }
     .release-tag {
       font-family: var(--mono); font-size: 14px; font-weight: 600; color: var(--text-primary);
+      word-break: break-all; /* Cắt mấy cái tag name dài quá khổ */
     }
     .badge {
       font-size: 12px; font-weight: 500;
       padding: 2px 8px; border-radius: var(--r-pill);
       border: 1px solid transparent;
+      white-space: nowrap; /* Giữ nguyên chữ không bị gãy */
     }
     .badge-latest  { color: #3fb950; border-color: rgba(63, 185, 80, 0.4); }
     .badge-pre     { color: #d2a8ff; border-color: rgba(210, 168, 255, 0.4); }
     
     .release-name {
       font-size: 20px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px;
+      word-break: break-word; /* Ép chữ xuống dòng nếu title quá dài */
     }
     .release-time {
       font-size: 13px; color: var(--text-muted); margin-bottom: 16px;
